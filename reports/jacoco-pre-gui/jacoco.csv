@@ -1,0 +1,9 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+Othello,othello,Spot,17,7,3,1,6,3,4,1,2,1
+Othello,othello,OthelloWidget.Player,0,15,0,0,0,2,0,1,0,1
+Othello,othello,OthelloWidget,130,884,34,126,41,205,29,70,3,16
+Othello,othello,SpotBoardIterator,0,63,0,6,0,14,0,6,0,3
+Othello,othello,JSpot,137,90,13,1,36,35,19,11,12,11
+Othello,othello,JSpot.new Runnable() {...},1,13,0,0,1,5,0,2,0,2
+Othello,othello,OthelloGame,39,0,0,0,12,0,2,0,2,0
+Othello,othello,JSpotBoard,138,268,30,28,20,37,23,16,2,8

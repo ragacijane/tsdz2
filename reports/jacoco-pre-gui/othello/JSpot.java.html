@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JSpot.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Othello</a> &gt; <a href="index.source.html" class="el_package">othello</a> &gt; <span class="el_source">JSpot.java</span></div><h1>JSpot.java</h1><pre class="source lang-java linenums">package othello;
+
+import java.awt.BasicStroke;
+import java.awt.Canvas;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.BorderFactory;
+
+/*
+ * JSpot
+ * 
+ * A custom user interface component that implements a spot on a spot board
+ * as an extension of JPanel.
+ * 
+ * A JSpot acts as its own mouse listener and will translate mouse events into
+ * notifications to registered SpotListener objects when the spot is entered,
+ * exited, or clicked using the appropriate methods (see SpotListener).
+ *
+ */
+
+public class JSpot extends JPanel implements MouseListener, Spot {
+
+	private Color _spot_color;
+	private Color _highlight_color;
+
+	private boolean _is_empty;
+	private boolean _is_highlighted;
+	private SpotBoard _board;
+	private int _x;
+	private int _y;
+
+	private List&lt;SpotListener&gt; _spot_listeners;
+
+	public JSpot(Color background, Color spot_color, Color highlight, 
+<span class="fc" id="L44">			SpotBoard board, int x, int y) {</span>
+
+		// Background color inherited from JPanel
+<span class="fc" id="L47">		setBackground(background);</span>
+
+<span class="fc" id="L49">		_spot_color = spot_color;</span>
+<span class="fc" id="L50">		_highlight_color = highlight;</span>
+<span class="fc" id="L51">		_is_empty = true;</span>
+<span class="fc" id="L52">		_is_highlighted = false;</span>
+<span class="fc" id="L53">		_board = board;</span>
+<span class="fc" id="L54">		_x = x;</span>
+<span class="fc" id="L55">		_y = y;</span>
+
+<span class="fc" id="L57">		_spot_listeners = new ArrayList&lt;SpotListener&gt;();</span>
+
+<span class="fc" id="L59">		addMouseListener(this);</span>
+<span class="fc" id="L60">	}</span>
+
+	// Getters for X, Y, and Board properties
+
+	@Override
+	public int getSpotX() {
+<span class="fc" id="L66">		return _x;</span>
+	}
+
+	@Override
+	public int getSpotY() {
+<span class="fc" id="L71">		return _y;</span>
+	}
+
+	@Override
+	public SpotBoard getBoard() {
+<span class="nc" id="L76">		return _board;</span>
+	}
+
+	// Empty / Filled status methods
+
+	@Override
+	public boolean isEmpty() {
+<span class="fc" id="L83">		return _is_empty;</span>
+	}
+
+	@Override
+	public void setSpot() {
+<span class="fc" id="L88">		_is_empty = false;</span>
+<span class="fc" id="L89">		trigger_update();</span>
+<span class="fc" id="L90">	}</span>
+
+	@Override
+	public void clearSpot() {
+<span class="fc" id="L94">		_is_empty = true;</span>
+<span class="fc" id="L95">		trigger_update();</span>
+<span class="fc" id="L96">	}</span>
+
+	// Highlight status methods
+
+	@Override
+	public boolean isHighlighted() {
+<span class="nc" id="L102">		return _is_highlighted;</span>
+	}
+
+	@Override
+	public void highlightSpot() {
+<span class="nc" id="L107">		_is_highlighted = true;</span>
+<span class="nc" id="L108">		trigger_update();</span>
+<span class="nc" id="L109">	}</span>
+
+	@Override
+	public void unhighlightSpot() {
+<span class="fc" id="L113">		_is_highlighted = false;</span>
+<span class="fc" id="L114">		trigger_update();</span>
+<span class="fc" id="L115">	}</span>
+
+	// Getters / Setters for color properties Highlight and SpotColor.
+	// getBackground and setBackground are inherited from JPanel.
+
+	@Override
+	public void setSpotColor(Color c) {		
+<span class="pc bpc" id="L122" title="1 of 2 branches missed.">		if (c == null) throw new IllegalArgumentException(&quot;null color&quot;);</span>
+
+<span class="fc" id="L124">		_spot_color = c;</span>
+<span class="fc" id="L125">		trigger_update();</span>
+<span class="fc" id="L126">	}</span>
+
+	@Override
+	public Color getSpotColor() {
+<span class="fc" id="L130">		return _spot_color;</span>
+	}
+
+	@Override
+	public void setHighlight(Color c) {
+<span class="nc bnc" id="L135" title="All 2 branches missed.">		if (c == null) throw new IllegalArgumentException(&quot;null color&quot;);</span>
+
+<span class="nc" id="L137">		_highlight_color = c;</span>
+<span class="nc" id="L138">		trigger_update();</span>
+<span class="nc" id="L139">	}</span>
+
+	@Override
+	public Color getHighlight() {
+<span class="nc" id="L143">		return _highlight_color;</span>
+	}
+
+	// Spot listener (de)registration methods.
+
+	@Override
+	public void addSpotListener(SpotListener l) {
+<span class="fc" id="L150">		_spot_listeners.add(l);</span>
+<span class="fc" id="L151">	}</span>
+
+	@Override
+	public void removeSpotListener(SpotListener l) {
+<span class="nc" id="L155">		_spot_listeners.remove(l);</span>
+<span class="nc" id="L156">	}</span>
+
+	// Overriding paintComponent from JPanel to paint ourselves
+	// the way we want.
+
+	@Override
+	public void paintComponent(Graphics g) {
+		// Super class paintComponent will take care of 
+		// painting the background.
+<span class="nc" id="L165">		super.paintComponent(g);</span>
+
+<span class="nc" id="L167">		Graphics2D g2d = (Graphics2D) g.create();</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">		if (isHighlighted()) {</span>
+<span class="nc" id="L169">			g2d.setColor(getHighlight());</span>
+<span class="nc" id="L170">			g2d.setStroke(new BasicStroke(4));</span>
+<span class="nc" id="L171">			g2d.drawRect(0, 0, getWidth(), getHeight());</span>
+		}
+<span class="nc bnc" id="L173" title="All 2 branches missed.">		if (!isEmpty()) {</span>
+<span class="nc" id="L174">			g2d.setColor(getSpotColor());</span>
+<span class="nc" id="L175">			g2d.fillOval(0, 0, this.getWidth()-1, this.getHeight()-1);</span>
+		}
+<span class="nc" id="L177">	}</span>
+
+	// Mouse listener implementation below for translating
+	// mouse events into spot listener events.
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+<span class="nc bnc" id="L184" title="All 2 branches missed.">		for (SpotListener s : _spot_listeners) {</span>
+<span class="nc" id="L185">			s.spotClicked(this);</span>
+<span class="nc" id="L186">		}</span>
+<span class="nc" id="L187">	}</span>
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+<span class="nc" id="L193">	}</span>
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+<span class="nc" id="L199">	}</span>
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+<span class="nc bnc" id="L203" title="All 2 branches missed.">		for (SpotListener s : _spot_listeners) {</span>
+<span class="nc" id="L204">			s.spotEntered(this);</span>
+<span class="nc" id="L205">		}</span>
+<span class="nc" id="L206">	}</span>
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+<span class="nc bnc" id="L210" title="All 2 branches missed.">		for (SpotListener s : _spot_listeners) {</span>
+<span class="nc" id="L211">			s.spotExited(this);</span>
+<span class="nc" id="L212">		}</span>
+<span class="nc" id="L213">	}	</span>
+	
+	private void trigger_update() {		
+<span class="fc" id="L216">		repaint();</span>
+
+		// Not sure why, but need to schedule a call
+		// to repaint for a little bit into the future
+		// as well as the one we just did above
+		// in order to make sure that we don't end up
+		// with visual artifacts due to race conditions.
+		
+<span class="fc" id="L224">		new Thread(new Runnable() {</span>
+			public void run() {
+				try {
+<span class="fc" id="L227">					Thread.sleep(50);</span>
+<span class="nc" id="L228">				} catch (InterruptedException e) {</span>
+<span class="fc" id="L229">				}</span>
+<span class="fc" id="L230">				repaint();</span>
+<span class="fc" id="L231">			}</span>
+<span class="fc" id="L232">		}).start();</span>
+
+<span class="fc" id="L234">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

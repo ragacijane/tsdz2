@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Spot.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Othello</a> &gt; <a href="index.source.html" class="el_package">othello</a> &gt; <span class="el_source">Spot.java</span></div><h1>Spot.java</h1><pre class="source lang-java linenums">package othello;
+
+
+import java.awt.Color;
+
+/*
+ * Spot
+ * 
+ * A Spot knows about which SpotBoard it is associated with as well as its
+ * x and y position on the board. These can be accessed as getters for
+ * properties X, Y, and Board.
+ * 
+ * A Spot is either empty or not empty. A Spot is constructed as empty.
+ * The empty status can be checked with isEmpty(), set as not empty with setSpot(),
+ * cleared to empty with clearSpot(), and toggled with toggleSpot().
+ * 
+ * Similarly, a spot is either highlighted or not. Highlight methods are:
+ * isHighlighted(), highlightSpot(), unhighlightSpot(), toggleHighlight().
+ * 
+ * A Spot has three mutable color properties that can be configured:
+ * 		SpotColor - The color used to draw the spot if the spot has been set.
+ * 		Background - Background color of the spot.
+ *      Highlight - Highlight color of the spot. 
+ *      
+ * Spot will paint itself with the current background, an oval filled spot if 
+ * not empty and framed by a 4 pixel wide stroke in the highlight color if highlighted.
+ * 
+ * A Spot is observable to objects that implement SpotListener.
+ * Spot listeners are informed about &quot;enter&quot;, &quot;exit&quot;, and &quot;click&quot; events.
+ * It is up to an implementation to determine how / when those are events occur.
+ * 
+ * Register and deregister methods are addSpotListener() and removeSpotListener()
+ * 
+ * getCoordString() constructs coordinate string as &quot;(x,y)&quot;
+ * 
+ */
+
+public interface Spot {
+
+	int getSpotX();
+	int getSpotY();
+	SpotBoard getBoard();
+
+	boolean isEmpty();
+	void setSpot();
+	void clearSpot();
+	default void toggleSpot() {
+<span class="fc bfc" id="L48" title="All 2 branches covered.">		if (isEmpty()) {</span>
+<span class="fc" id="L49">			setSpot();</span>
+		} else {
+<span class="fc" id="L51">			clearSpot();</span>
+		}
+<span class="fc" id="L53">	}</span>
+
+	boolean isHighlighted();
+	void highlightSpot();
+	void unhighlightSpot();
+	default void toggleHighlight() {
+<span class="fc bfc" id="L59" title="All 2 branches covered.">		if (isHighlighted()) {</span>
+<span class="fc" id="L60">			unhighlightSpot();</span>
+		} else {
+<span class="fc" id="L62">			highlightSpot();</span>
+		}
+<span class="fc" id="L64">	}</span>
+
+	void setBackground(Color c);
+	Color getBackground();
+	void setSpotColor(Color c);
+	Color getSpotColor();
+	void setHighlight(Color c);
+	Color getHighlight();
+
+	void addSpotListener(SpotListener l);
+	void removeSpotListener(SpotListener l);
+
+	default String getCoordString() {
+<span class="fc" id="L77">		return &quot;(&quot; + getSpotX() + &quot;, &quot; + getSpotY() + &quot;)&quot;;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>

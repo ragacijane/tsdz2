@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JSpotBoard.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Othello</a> &gt; <a href="index.source.html" class="el_package">othello</a> &gt; <span class="el_source">JSpotBoard.java</span></div><h1>JSpotBoard.java</h1><pre class="source lang-java linenums">package othello;
+
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.swing.JPanel;
+
+/*
+ * JSpotBoard is a user interface component that implements SpotBoard.
+ * 
+ * Spot width and spot height are specified to the constructor. 
+ * 
+ * By default, the spots on the spot board are set up with a checker board pattern
+ * for background colors and yellow highlighting.
+ * 
+ * Uses SpotBoardIterator to implement Iterable&lt;Spot&gt;
+ * 
+ */
+
+public class JSpotBoard extends JPanel implements SpotBoard {
+
+	private static final int DEFAULT_SCREEN_WIDTH = 500;
+	private static final int DEFAULT_SCREEN_HEIGHT = 500;
+<span class="fc" id="L29">	private static final Color DEFAULT_BACKGROUND_LIGHT = new Color(0.8f, 0.8f, 0.8f);</span>
+<span class="fc" id="L30">	private static final Color DEFAULT_BACKGROUND_DARK = new Color(0.8f, 0.8f, 0.8f); //was.5</span>
+<span class="fc" id="L31">	private static final Color DEFAULT_SPOT_COLOR = Color.BLACK;</span>
+<span class="fc" id="L32">	private static final Color DEFAULT_HIGHLIGHT_COLOR = Color.YELLOW;</span>
+
+	private Spot[][] _spots;
+	
+<span class="fc" id="L36">	public JSpotBoard(int width, int height) {</span>
+<span class="fc bfc" id="L37" title="All 8 branches covered.">		if (width &lt; 1 || height &lt; 1 || width &gt; 50 || height &gt; 50) {</span>
+<span class="fc" id="L38">			throw new IllegalArgumentException(&quot;Illegal spot board geometry&quot;);</span>
+		}
+<span class="fc" id="L40">		setLayout(new GridLayout(height, width));</span>
+<span class="fc" id="L41">		_spots = new Spot[width][height];</span>
+		
+<span class="fc" id="L43">		Dimension preferred_size = new Dimension(DEFAULT_SCREEN_WIDTH/width, DEFAULT_SCREEN_HEIGHT/height);</span>
+		
+<span class="fc bfc" id="L45" title="All 2 branches covered.">		for (int y=0; y&lt;height; y++) {</span>
+<span class="fc bfc" id="L46" title="All 2 branches covered.">			for (int x=0; x&lt;width; x++) {</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">				Color bg = ((x+y)%2 == 0) ? DEFAULT_BACKGROUND_LIGHT : DEFAULT_BACKGROUND_DARK;</span>
+<span class="fc" id="L48">				_spots[x][y] = new JSpot(bg, DEFAULT_SPOT_COLOR, DEFAULT_HIGHLIGHT_COLOR, this, x, y);</span>
+<span class="fc" id="L49">				((JSpot)_spots[x][y]).setPreferredSize(preferred_size);</span>
+<span class="fc" id="L50">				add(((JSpot) _spots[x][y]));</span>
+			}			
+		}
+<span class="fc" id="L53">	}</span>
+	
+	
+	//ConnectFour Constructor
+<span class="fc" id="L57">	public JSpotBoard(int width, int height, Color C1, Color C2) {</span>
+<span class="pc bpc" id="L58" title="4 of 8 branches missed.">		if (width &lt; 1 || height &lt; 1 || width &gt; 50 || height &gt; 50) {</span>
+<span class="nc" id="L59">			throw new IllegalArgumentException(&quot;Illegal spot board geometry&quot;);</span>
+		}
+<span class="fc" id="L61">		setLayout(new GridLayout(height, width));</span>
+<span class="fc" id="L62">		_spots = new Spot[width][height];</span>
+		
+<span class="fc" id="L64">		Dimension preferred_size = new Dimension(DEFAULT_SCREEN_WIDTH/width, DEFAULT_SCREEN_HEIGHT/height);</span>
+		
+<span class="fc bfc" id="L66" title="All 2 branches covered.">		for (int y=0; y&lt;height; y++) {</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">			for (int x=0; x&lt;width; x++) {</span>
+<span class="fc bfc" id="L68" title="All 2 branches covered.">				Color bg = ((x)%2 == 0) ? C1 : C2;</span>
+<span class="fc" id="L69">				_spots[x][y] = new JSpot(bg, DEFAULT_SPOT_COLOR, DEFAULT_HIGHLIGHT_COLOR, this, x, y);</span>
+<span class="fc" id="L70">				((JSpot)_spots[x][y]).setPreferredSize(preferred_size);</span>
+<span class="fc" id="L71">				add(((JSpot) _spots[x][y]));</span>
+			}			
+		}
+<span class="fc" id="L74">	}</span>
+	
+<span class="fc" id="L76">	public JSpotBoard(int width, int height, Color defaultCol2) {</span>
+<span class="pc bpc" id="L77" title="4 of 8 branches missed.">		if (width &lt; 1 || height &lt; 1 || width &gt; 50 || height &gt; 50) {</span>
+<span class="nc" id="L78">			throw new IllegalArgumentException(&quot;Illegal spot board geometry&quot;);</span>
+		}
+<span class="fc" id="L80">		setLayout(new GridLayout(height, width));</span>
+<span class="fc" id="L81">		_spots = new Spot[width][height];</span>
+		
+<span class="fc" id="L83">		Dimension preferred_size = new Dimension(DEFAULT_SCREEN_WIDTH/width, DEFAULT_SCREEN_HEIGHT/height);</span>
+		
+<span class="fc bfc" id="L85" title="All 2 branches covered.">		for (int y=0; y&lt;height; y++) {</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">			for (int x=0; x&lt;width; x++) {</span>
+<span class="fc bfc" id="L87" title="All 2 branches covered.">				Color bg = ((x+y)%2 == 0) ? DEFAULT_BACKGROUND_LIGHT : defaultCol2;</span>
+<span class="fc" id="L88">				_spots[x][y] = new JSpot(bg, DEFAULT_SPOT_COLOR, DEFAULT_HIGHLIGHT_COLOR, this, x, y);</span>
+<span class="fc" id="L89">				((JSpot)_spots[x][y]).setPreferredSize(preferred_size);</span>
+<span class="fc" id="L90">				add(((JSpot) _spots[x][y]));</span>
+			}			
+		}
+<span class="fc" id="L93">	}</span>
+
+
+	// Getters for SpotWidth and SpotHeight properties
+	
+	@Override
+	public int getSpotWidth() {
+<span class="fc" id="L100">		return _spots.length;</span>
+	}
+	
+	@Override
+	public int getSpotHeight() {
+<span class="fc" id="L105">		return _spots[0].length;</span>
+	}
+
+	// Lookup method for Spot at position (x,y)
+	
+	@Override
+	public Spot getSpotAt(int x, int y) {
+<span class="fc bfc" id="L112" title="All 8 branches covered.">		if (x &lt; 0 || x &gt;= getSpotWidth() || y &lt; 0 || y &gt;= getSpotHeight()) {</span>
+<span class="fc" id="L113">			throw new IllegalArgumentException(&quot;Illegal spot coordinates&quot;);</span>
+		}
+		
+<span class="fc" id="L116">		return _spots[x][y];</span>
+	}
+	
+	// Convenience methods for (de)registering spot listeners.
+	
+	@Override
+	public void addSpotListener(SpotListener spot_listener) {
+<span class="fc bfc" id="L123" title="All 2 branches covered.">		for (int x=0; x&lt;getSpotWidth(); x++) {</span>
+<span class="fc bfc" id="L124" title="All 2 branches covered.">			for (int y=0; y&lt;getSpotHeight(); y++) {</span>
+<span class="fc" id="L125">				_spots[x][y].addSpotListener(spot_listener);</span>
+			}
+		}
+<span class="fc" id="L128">	}</span>
+	
+	@Override
+	public void removeSpotListener(SpotListener spot_listener) {
+<span class="fc bfc" id="L132" title="All 2 branches covered.">		for (int x=0; x&lt;getSpotWidth(); x++) {</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">			for (int y=0; y&lt;getSpotHeight(); y++) {</span>
+<span class="fc" id="L134">				_spots[x][y].removeSpotListener(spot_listener);</span>
+			}
+		}
+<span class="fc" id="L137">	}</span>
+
+	@Override
+	public Iterator&lt;Spot&gt; iterator() {
+<span class="fc" id="L141">		return new SpotBoardIterator(this);</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.14.202510111229</span></div></body></html>
