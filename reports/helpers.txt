@@ -63,3 +63,11 @@ kopirati na stranu pre sledeceg pokretanja, npr:
    da li da spoji (merge) sa prethodnim rezultatima ili da zameni -
    izabrati "Replace" / ne spajati, inace se pre i posle pomesaju u
    isti broj.
+
+
+3) POMOCNA METODA U OthelloWidget (javawidget) ZA LAKSE TESTIRANJE
+---------------------------------------------------------------------
+
+	Spot getSpotAt(int x, int y) {
+		return _board.getSpotAt(x, y);
+	}
