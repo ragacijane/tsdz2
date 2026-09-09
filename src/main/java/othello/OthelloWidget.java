@@ -301,6 +301,10 @@ public class OthelloWidget extends JPanel implements ActionListener, SpotListene
 		
 	}
 
+	Spot getSpotAt(int x, int y) {
+		return _board.getSpotAt(x, y);
+	}
+
 	public boolean checkWin() {
 
 		if (_game_won) {
@@ -392,7 +396,7 @@ public class OthelloWidget extends JPanel implements ActionListener, SpotListene
 		return false;
 
 	}
-	
+
 	
 
     /**

@@ -1,0 +1,140 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > OthelloGame</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">othello</a>
+</div>
+
+<h1>Coverage Summary for Class: OthelloGame (othello)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">OthelloGame</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package othello;
+&nbsp;
+&nbsp;
+&nbsp;import java.awt.BorderLayout;
+&nbsp;
+&nbsp;import javax.swing.JFrame;
+&nbsp;import javax.swing.JPanel;
+&nbsp;
+<b class="nc">&nbsp;public class OthelloGame {</b>
+&nbsp;	public static void main(String[] args) {
+&nbsp;		
+&nbsp;		/* Create top level window. */
+&nbsp;		
+<b class="nc">&nbsp;		JFrame main_frame = new JFrame();</b>
+<b class="nc">&nbsp;		main_frame.setTitle(&quot;Othello&quot;);</b>
+<b class="nc">&nbsp;		main_frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);</b>
+&nbsp;
+&nbsp;		/* Create panel for content. Uses BorderLayout. */
+<b class="nc">&nbsp;		JPanel top_panel = new JPanel();</b>
+<b class="nc">&nbsp;		top_panel.setLayout(new BorderLayout());</b>
+<b class="nc">&nbsp;		main_frame.setContentPane(top_panel);</b>
+&nbsp;
+&nbsp;		/* Create ExampleWidget component and put into center
+&nbsp;		 * of content panel.
+&nbsp;		 */
+&nbsp;		
+<b class="nc">&nbsp;		OthelloWidget ttt = new OthelloWidget();</b>
+<b class="nc">&nbsp;		top_panel.add(ttt, BorderLayout.CENTER);</b>
+&nbsp;
+&nbsp;
+&nbsp;		/* Pack main frame and make visible. */
+&nbsp;		
+<b class="nc">&nbsp;		main_frame.pack();</b>
+<b class="nc">&nbsp;		main_frame.setVisible(true);		</b>
+&nbsp;	}
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-09-09 13:28</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,111 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > SpotBoard</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">othello</a>
+</div>
+
+<h1>Coverage Summary for Class: SpotBoard (othello)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">SpotBoard</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package othello;
+&nbsp;
+&nbsp;
+&nbsp;import java.util.Iterator;
+&nbsp;
+&nbsp;/* 
+&nbsp; * SpotBoard
+&nbsp; * 
+&nbsp; * A 2D field of Spots.
+&nbsp; * 
+&nbsp; * getSpotWidth() and getSpotHeight() retrieve geometry of SpotBoard.
+&nbsp; * 
+&nbsp; * The upper left spot is spot (0,0) and the lower right
+&nbsp; * spot is considered (getSpotWidth()-1, getSpotHeight()-1).
+&nbsp; * 
+&nbsp; * The method getSpotAt(int x, int y) will return the spot at position (x,y).
+&nbsp; * Throws IllegalArgumentException if x or y is illegal.
+&nbsp; * 
+&nbsp; * The SpotBoard provides convenience methods addSpotListener() and removeSpotListener()
+&nbsp; * for SpotListeners to register / deregister with all of the spots on the board.
+&nbsp; * 
+&nbsp; * SpotBoard extends Iterable&lt;Spot&gt; meaning the method iterator()
+&nbsp; * will provide an iterator of type Iterator&lt;Spot&gt; that will traverse each
+&nbsp; * spot on the board (order up to implementation).
+&nbsp; * 
+&nbsp; */
+&nbsp;
+&nbsp;
+&nbsp;public interface SpotBoard extends Iterable&lt;Spot&gt; {
+&nbsp;
+&nbsp;	int getSpotWidth();
+&nbsp; 
+&nbsp;	int getSpotHeight();
+&nbsp;
+&nbsp;	Spot getSpotAt(int x, int y);
+&nbsp;
+&nbsp;	void addSpotListener(SpotListener spot_listener);
+&nbsp;
+&nbsp;	void removeSpotListener(SpotListener spot_listener);
+&nbsp;
+&nbsp;	Iterator&lt;Spot&gt; iterator();
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-09-09 13:28</div>
+</div>
+</body>
+</html>

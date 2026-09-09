@@ -1,0 +1,784 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > OthelloWidget</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">othello</a>
+</div>
+
+<h1>Coverage Summary for Class: OthelloWidget (othello)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">OthelloWidget</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (19/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.1%
+  </span>
+  <span class="absValue">
+    (133/160)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88.2%
+  </span>
+  <span class="absValue">
+    (195/221)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">OthelloWidget$Player</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (21/21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    83.1%
+  </span>
+  <span class="absValue">
+    (133/160)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88.3%
+  </span>
+  <span class="absValue">
+    (197/223)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package othello;
+&nbsp;
+&nbsp;import java.awt.BorderLayout;
+&nbsp;import java.awt.Color;
+&nbsp;import java.awt.Point;
+&nbsp;import java.awt.event.ActionEvent;
+&nbsp;import java.awt.event.ActionListener;
+&nbsp;import java.util.ArrayList;
+&nbsp;import java.util.Arrays;
+&nbsp;import java.util.HashSet;
+&nbsp;
+&nbsp;import javax.swing.JButton;
+&nbsp;import javax.swing.JLabel;
+&nbsp;import javax.swing.JPanel;
+&nbsp;
+&nbsp;public class OthelloWidget extends JPanel implements ActionListener, SpotListener {
+&nbsp;
+&nbsp;	/* Enum to identify player. */
+&nbsp;
+<b class="fc">&nbsp;	private enum Player {</b>
+<b class="fc">&nbsp;		BLACK, WHITE</b>
+&nbsp;	};
+&nbsp;
+&nbsp;	private JSpotBoard _board; /* SpotBoard playing area. */
+&nbsp;	private JLabel _message; /* Label for messages. */
+&nbsp;	private boolean _game_won; /* Indicates if games was been won already. */
+&nbsp;	private boolean _game_draw; /* Indicates if games was been drawn. */
+&nbsp;	private int _gameint;
+&nbsp;	public int _noBlack;
+&nbsp;	public int _noWhite;
+&nbsp;	private String _winnerName;
+&nbsp;	public HashSet&lt;Point&gt; placeablePositions;
+&nbsp;
+&nbsp;	private Player _next_to_play; /* Identifies who has next turn. */
+&nbsp;
+<b class="fc">&nbsp;	public OthelloWidget() {</b>
+&nbsp;
+&nbsp;		/* Create SpotBoard and message label. */
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;		_board = new JSpotBoard(8, 8, new Color(0.5f, 0.5f, 0.5f));</b>
+<b class="fc">&nbsp;		_size = 8;</b>
+&nbsp;
+<b class="fc">&nbsp;		Spot initSpot1 = _board.getSpotAt(4, 4);</b>
+<b class="fc">&nbsp;		Spot initSpot2 = _board.getSpotAt(4, 3);</b>
+<b class="fc">&nbsp;		Spot initSpot3 = _board.getSpotAt(3, 4);</b>
+<b class="fc">&nbsp;		Spot initSpot4 = _board.getSpotAt(3, 3);</b>
+&nbsp;		
+<b class="fc">&nbsp;		placeablePositions = new HashSet&lt;Point&gt;();</b>
+&nbsp;		
+<b class="fc">&nbsp;		_message = new JLabel();</b>
+&nbsp;
+&nbsp;		/* Set layout and place SpotBoard at center. */
+&nbsp;
+<b class="fc">&nbsp;		setLayout(new BorderLayout());</b>
+<b class="fc">&nbsp;		add(_board, BorderLayout.CENTER);</b>
+&nbsp;
+&nbsp;		/* Create subpanel for message area and reset button. */
+&nbsp;
+<b class="fc">&nbsp;		JPanel reset_message_panel = new JPanel();</b>
+<b class="fc">&nbsp;		reset_message_panel.setLayout(new BorderLayout());</b>
+&nbsp;
+&nbsp;		/* Reset button. Add ourselves as the action listener. */
+&nbsp;
+<b class="fc">&nbsp;		JButton reset_button = new JButton(&quot;Restart&quot;);</b>
+<b class="fc">&nbsp;		reset_button.addActionListener(this);</b>
+<b class="fc">&nbsp;		reset_message_panel.add(reset_button, BorderLayout.EAST);</b>
+<b class="fc">&nbsp;		reset_message_panel.add(_message, BorderLayout.CENTER);</b>
+&nbsp;
+&nbsp;		/* Add subpanel in south area of layout. */
+&nbsp;
+<b class="fc">&nbsp;		add(reset_message_panel, BorderLayout.SOUTH);</b>
+&nbsp;
+&nbsp;		/*
+&nbsp;		 * Add ourselves as a spot listener for all of the spots on the spot board.
+&nbsp;		 */
+<b class="fc">&nbsp;		_board.addSpotListener(this);</b>
+&nbsp;
+&nbsp;		/* Reset game. */
+<b class="fc">&nbsp;		resetGame();</b>
+<b class="fc">&nbsp;		spotClicked(initSpot3);</b>
+&nbsp;
+<b class="fc">&nbsp;		spotClicked(initSpot4);</b>
+<b class="fc">&nbsp;		spotClicked(initSpot2);</b>
+<b class="fc">&nbsp;		spotClicked(initSpot1);</b>
+&nbsp;
+&nbsp;	}
+&nbsp;
+&nbsp;	/*
+&nbsp;	 * resetGame
+&nbsp;	 * 
+&nbsp;	 * Resets the game by clearing all the spots on the board, picking a new secret
+&nbsp;	 * spot, resetting game status fields, and displaying start message.
+&nbsp;	 * 
+&nbsp;	 */
+&nbsp;
+&nbsp;	private void resetGame() {
+&nbsp;		/*
+&nbsp;		 * Clear all spots on board. Uses the fact that SpotBoard implements
+&nbsp;		 * Iterable&lt;Spot&gt; to do this in a for-each loop.
+&nbsp;		 */
+&nbsp;
+<b class="fc">&nbsp;		Spot initSpot1 = _board.getSpotAt(4, 4);</b>
+<b class="fc">&nbsp;		Spot initSpot2 = _board.getSpotAt(4, 3);</b>
+<b class="fc">&nbsp;		Spot initSpot3 = _board.getSpotAt(3, 4);</b>
+<b class="fc">&nbsp;		Spot initSpot4 = _board.getSpotAt(3, 3);</b>
+<b class="fc">&nbsp;		_gameint = 0;</b>
+&nbsp;		
+<b class="fc">&nbsp;		for (Spot s : _board) {</b>
+<b class="fc">&nbsp;			s.clearSpot();</b>
+<b class="fc">&nbsp;			s.setSpotColor(Color.BLACK);</b>
+&nbsp;		}
+&nbsp;
+&nbsp;		/* Reset game won and next to play fields */
+<b class="fc">&nbsp;		_game_won = false;</b>
+<b class="fc">&nbsp;		_game_draw = false;</b>
+<b class="fc">&nbsp;		_next_to_play = Player.BLACK;</b>
+&nbsp;
+&nbsp;		/* Display game start message. */
+&nbsp;
+<b class="fc">&nbsp;		spotClicked(initSpot3);</b>
+&nbsp;
+<b class="fc">&nbsp;		spotClicked(initSpot4);</b>
+<b class="fc">&nbsp;		spotClicked(initSpot2);</b>
+<b class="fc">&nbsp;		spotClicked(initSpot1);</b>
+&nbsp;		
+<b class="fc">&nbsp;		_message.setText(&quot;Welcome to Othello. Black to play&quot;);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;
+&nbsp;	@Override
+&nbsp;	public void actionPerformed(ActionEvent e) {
+&nbsp;		/* Handles reset game button. Simply reset the game. */
+<b class="fc">&nbsp;		resetGame();</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	/*
+&nbsp;	 * Implementation of SpotListener below. Implements game logic as responses to
+&nbsp;	 * enter/exit/click on spots.
+&nbsp;	 */
+&nbsp;
+&nbsp;	@Override
+&nbsp;	public void spotClicked(Spot s) {
+&nbsp;
+<b class="fc">&nbsp;		if (isLegalMove(s) == false &amp;&amp; _gameint &gt;= 4) {</b>
+&nbsp;			return;
+&nbsp;		}
+&nbsp;		
+&nbsp;		/* If game already won, do nothing. */
+<b class="pc">&nbsp;		if (_game_won) {</b>
+&nbsp;			return;
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		flipPieces(s);</b>
+&nbsp;		/*
+&nbsp;		 * Set up player and next player name strings, and player color as local
+&nbsp;		 * variables to be used later.
+&nbsp;		 */
+&nbsp;
+<b class="fc">&nbsp;		String player_name = null;</b>
+<b class="fc">&nbsp;		String next_player_name = null;</b>
+<b class="fc">&nbsp;		Color player_color = null;</b>
+&nbsp;
+<b class="fc">&nbsp;		if (_next_to_play == Player.BLACK) {</b>
+<b class="fc">&nbsp;			player_color = Color.BLACK;</b>
+<b class="fc">&nbsp;			player_name = &quot;Black&quot;;</b>
+<b class="fc">&nbsp;			next_player_name = &quot;White&quot;;</b>
+<b class="fc">&nbsp;			_next_to_play = Player.WHITE;</b>
+&nbsp;		} else {
+<b class="fc">&nbsp;			player_color = Color.WHITE;</b>
+<b class="fc">&nbsp;			player_name = &quot;White&quot;;</b>
+<b class="fc">&nbsp;			next_player_name = &quot;Black&quot;;</b>
+<b class="fc">&nbsp;			_next_to_play = Player.BLACK;</b>
+&nbsp;		}
+&nbsp;
+&nbsp;		/* Set color of spot clicked and toggle. */
+<b class="pc">&nbsp;		if (s.isEmpty()) {</b>
+<b class="fc">&nbsp;			s.setSpotColor(player_color);</b>
+<b class="fc">&nbsp;			s.toggleSpot();</b>
+&nbsp;
+&nbsp;		} else {
+&nbsp;
+<b class="nc">&nbsp;			if (_next_to_play == Player.BLACK) {</b>
+<b class="nc">&nbsp;				player_color = Color.WHITE;</b>
+<b class="nc">&nbsp;				player_name = &quot;White&quot;;</b>
+<b class="nc">&nbsp;				next_player_name = &quot;White&quot;;</b>
+<b class="nc">&nbsp;				_next_to_play = Player.WHITE;</b>
+&nbsp;
+&nbsp;			} else {
+&nbsp;
+<b class="nc">&nbsp;				player_color = Color.BLACK;</b>
+<b class="nc">&nbsp;				player_name = &quot;Black&quot;;</b>
+<b class="nc">&nbsp;				next_player_name = &quot;Black&quot;;</b>
+<b class="nc">&nbsp;				_next_to_play = Player.BLACK;</b>
+&nbsp;
+&nbsp;			}
+&nbsp;		}
+&nbsp;//		System.out.println(&quot;Checking Valid Moves&quot;);
+&nbsp;//		Spot spot = _board.getSpotAt(5, 3);
+&nbsp;//		System.out.println(isLegalMove(spot));
+<b class="fc">&nbsp;		int numOfValids = 0;</b>
+<b class="fc">&nbsp;		_gameint ++;</b>
+<b class="fc">&nbsp;		for (Spot Spotter : _board) {</b>
+&nbsp;//			System.out.println(&quot;Testing&quot;);
+<b class="fc">&nbsp;			Spotter.unhighlightSpot();</b>
+<b class="fc">&nbsp;			if (isLegalMove(Spotter)) {</b>
+<b class="fc">&nbsp;				numOfValids++;</b>
+&nbsp;				//Spotter.highlightSpot();
+&nbsp;				//System.out.println(&quot;At Position: &quot; + Spotter.getCoordString());
+&nbsp;				//System.out.println(&quot;Possible Move Checker Output : &quot; + isLegalMove(Spotter));
+&nbsp;			}
+&nbsp;		}
+&nbsp;		
+<b class="pc">&nbsp;		if (numOfValids == 0 &amp;&amp; _gameint &gt;= 4) {</b>
+&nbsp;			
+<b class="nc">&nbsp;			if (_next_to_play == Player.BLACK) {</b>
+<b class="nc">&nbsp;				player_color = Color.WHITE;</b>
+<b class="nc">&nbsp;				player_name = &quot;White&quot;;</b>
+<b class="nc">&nbsp;				next_player_name = &quot;White&quot;;</b>
+<b class="nc">&nbsp;				_next_to_play = Player.WHITE;</b>
+&nbsp;
+&nbsp;			} else {
+&nbsp;
+<b class="nc">&nbsp;				player_color = Color.BLACK;</b>
+<b class="nc">&nbsp;				player_name = &quot;Black&quot;;</b>
+<b class="nc">&nbsp;				next_player_name = &quot;Black&quot;;</b>
+<b class="nc">&nbsp;				_next_to_play = Player.BLACK;</b>
+&nbsp;			}
+&nbsp;		}
+&nbsp;		//System.out.println(&quot;Win Checker Output: &quot; + checkWin());
+&nbsp;
+&nbsp;		//System.out.println(&quot;Win Checker Output: &quot; + checkWin());
+&nbsp;		Color nextCol;
+<b class="fc">&nbsp;		if (player_color == Color.BLACK) {</b>
+<b class="fc">&nbsp;			nextCol = Color.WHITE;</b>
+&nbsp;		} else {
+<b class="fc">&nbsp;			nextCol = Color.BLACK;</b>
+&nbsp;		}
+&nbsp;		
+&nbsp;		//findPlaceableLocations(player_color, nextCol);
+&nbsp;	
+&nbsp;		/*
+&nbsp;		 * Check if spot clicked is secret spot. If so, mark game as won and update
+&nbsp;		 * background of spot to show that it was the secret spot.
+&nbsp;		 */
+&nbsp;
+&nbsp;		/*
+&nbsp;		 * Update the message depending on what happened. If spot is empty, then we must
+&nbsp;		 * have just cleared the spot. Update message accordingly. If spot is not empty
+&nbsp;		 * and the game is won, we must have just won. Calculate score and display as
+&nbsp;		 * part of game won message. If spot is not empty and the game is not won,
+&nbsp;		 * update message to report spot coordinates and indicate whose turn is next.
+&nbsp;		 */
+&nbsp;
+<b class="fc">&nbsp;		if (_gameint &gt;= 4) {</b>
+<b class="pc">&nbsp;		if (s.isEmpty()) {</b>
+<b class="nc">&nbsp;			_message.setText(next_player_name + &quot; to play.&quot;);</b>
+&nbsp;		} else {
+<b class="pc">&nbsp;			if ((checkWin() == true) &amp;&amp; (_winnerName != (null))) {</b>
+&nbsp;
+<b class="nc">&nbsp;				_message.setText(_winnerName + &quot; wins! &quot; + &quot; Score: &quot; + _noBlack + &quot; to &quot; + _noWhite);</b>
+&nbsp;				
+&nbsp;			} else {
+&nbsp;
+<b class="pc">&nbsp;				if ((_winnerName == null) &amp;&amp; (_game_won == true)) {</b>
+&nbsp;
+<b class="nc">&nbsp;					_message.setText(&quot; Draw game.&quot;);</b>
+&nbsp;
+&nbsp;				} else {
+&nbsp;
+<b class="fc">&nbsp;					_message.setText(next_player_name + &quot; to play.&quot;);</b>
+&nbsp;				}
+&nbsp;			}
+&nbsp;		}
+&nbsp;		}
+&nbsp;	}
+&nbsp;
+&nbsp;	@Override
+&nbsp;	public void spotEntered(Spot s) {
+&nbsp;		/* Highlight spot if game still going on. */
+&nbsp;
+<b class="fc">&nbsp;		if (_game_won) {</b>
+&nbsp;			return;
+&nbsp;		}
+<b class="fc">&nbsp;		if (isLegalMove(s) == true) {</b>
+&nbsp;			
+<b class="fc">&nbsp;		s.highlightSpot();</b>
+&nbsp;		}
+&nbsp;	}
+&nbsp;
+&nbsp;	@Override
+&nbsp;	public void spotExited(Spot s) {
+&nbsp;		/* Unhighlight spot. */
+&nbsp;		
+&nbsp;			
+<b class="fc">&nbsp;			if (_game_won == true) {</b>
+&nbsp;				return;
+&nbsp;			}
+&nbsp;
+<b class="fc">&nbsp;		s.unhighlightSpot();</b>
+&nbsp;		
+&nbsp;	}
+&nbsp;
+&nbsp;	Spot getSpotAt(int x, int y) {
+<b class="fc">&nbsp;		return _board.getSpotAt(x, y);</b>
+&nbsp;	}
+&nbsp;
+&nbsp;	public boolean checkWin() {
+&nbsp;
+<b class="fc">&nbsp;		if (_game_won) {</b>
+<b class="fc">&nbsp;			return true;</b>
+&nbsp;		}
+&nbsp;
+<b class="fc">&nbsp;		int countBlacks = 0;</b>
+<b class="fc">&nbsp;		int countWhites = 0;</b>
+&nbsp;
+&nbsp;			
+<b class="fc">&nbsp;			for (Spot s : _board) {</b>
+<b class="fc">&nbsp;				if (s.getSpotColor() == Color.WHITE) {</b>
+&nbsp;	
+<b class="fc">&nbsp;					countWhites++;</b>
+&nbsp;				}
+&nbsp;
+<b class="pc">&nbsp;				else if (s.getSpotColor() == Color.BLACK</b>
+<b class="fc">&nbsp;						&amp;&amp; (s.isEmpty() == false)) {</b>
+&nbsp;					
+<b class="fc">&nbsp;					countBlacks++;</b>
+&nbsp;				}
+&nbsp;			}
+&nbsp;
+<b class="fc">&nbsp;			System.out.println(&quot;Blacks &quot; + countBlacks);</b>
+<b class="fc">&nbsp;			System.out.println(&quot;Whites &quot; + countWhites);</b>
+<b class="fc">&nbsp;			_noWhite = countWhites;</b>
+<b class="fc">&nbsp;			_noBlack = countBlacks;</b>
+&nbsp;
+&nbsp;			
+&nbsp;            int playCol;
+<b class="fc">&nbsp;			if (_next_to_play == Player.BLACK) {</b>
+<b class="fc">&nbsp;            	playCol = 0;</b>
+&nbsp;            } else {
+<b class="fc">&nbsp;            	playCol = 1;</b>
+&nbsp;            }
+&nbsp;            
+<b class="fc">&nbsp;			System.out.println(&quot;Legal? &quot; + hasLegalMoves());</b>
+<b class="fc">&nbsp;			if ((hasLegalMoves() == false)) {</b>
+<b class="fc">&nbsp;				if (countBlacks &gt; countWhites) {</b>
+<b class="fc">&nbsp;					_winnerName = &quot;Black&quot;;</b>
+&nbsp;				} 
+&nbsp;				
+<b class="fc">&nbsp;				if (countWhites &gt; countBlacks) {</b>
+<b class="fc">&nbsp;					_winnerName = &quot;White&quot;;</b>
+&nbsp;				} 
+&nbsp;				
+<b class="fc">&nbsp;				if (countWhites == countBlacks) {</b>
+<b class="fc">&nbsp;					_winnerName = null;</b>
+&nbsp;				} 
+&nbsp;				
+<b class="fc">&nbsp;				System.out.println(&quot;GAME WON&quot;);</b>
+<b class="fc">&nbsp;				_game_won = true;</b>
+&nbsp;
+<b class="fc">&nbsp;				return true;</b>
+&nbsp;
+&nbsp;
+&nbsp;			}
+&nbsp;
+&nbsp;		
+&nbsp;
+&nbsp;
+<b class="fc">&nbsp;		return false;</b>
+&nbsp;
+&nbsp;	}
+&nbsp;
+&nbsp;	public boolean checkDraw() {
+<b class="fc">&nbsp;		int countBlacks = 0;</b>
+<b class="fc">&nbsp;		int countWhites = 0;</b>
+&nbsp;
+<b class="fc">&nbsp;		for (int x = 0; x &lt; 8; x++) {</b>
+&nbsp;
+<b class="fc">&nbsp;			for (int y = 0; y &lt; 8; y++) {</b>
+&nbsp;
+<b class="fc">&nbsp;				if (_board.getSpotAt(x, y).getSpotColor() == Color.WHITE) {</b>
+<b class="fc">&nbsp;					countWhites++;</b>
+&nbsp;				}
+&nbsp;
+<b class="pc">&nbsp;				else if (_board.getSpotAt(x, y).getSpotColor() == Color.BLACK</b>
+<b class="fc">&nbsp;						&amp;&amp; (_board.getSpotAt(x, y).isEmpty() == false)) {</b>
+&nbsp;
+<b class="fc">&nbsp;					countBlacks++;</b>
+&nbsp;				}
+&nbsp;
+&nbsp;			}
+&nbsp;
+&nbsp;
+&nbsp;
+&nbsp;		}
+<b class="fc">&nbsp;		return false;</b>
+&nbsp;
+&nbsp;	}
+&nbsp;
+&nbsp;	
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns the index into the {@link ReversiObject#players} array of the
+&nbsp;     * player to whom control should transition.
+&nbsp;     */
+&nbsp;	
+<b class="fc">&nbsp;	protected static final int[] DX = { -1, 0, 1, -1, 1, -1, 0, 1 };</b>
+<b class="fc">&nbsp;    protected static final int[] DY = { -1, -1, -1, 0, 0, 1, 1, 1 };</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns true if the supplied piece represents a legal move for the
+&nbsp;     * owning player.
+&nbsp;     */
+&nbsp;    public boolean isLegalMove (Spot piece)
+&nbsp;    {
+&nbsp;        // disallow moves on out of bounds and already occupied spots
+<b class="fc">&nbsp;        if (!piece.isEmpty()) {</b>
+<b class="fc">&nbsp;            return false;</b>
+&nbsp;        }
+&nbsp;        //System.out.println();
+&nbsp;        // determine whether this piece &quot;captures&quot; pieces of the opposite color
+<b class="fc">&nbsp;        for (int ii = 0; ii &lt; DX.length; ii++) {</b>
+&nbsp;            // look in this direction for captured pieces
+<b class="fc">&nbsp;            boolean sawOther = false, sawSelf = false;</b>
+<b class="fc">&nbsp;            int x = piece.getSpotX(), y = piece.getSpotY();</b>
+&nbsp;            
+&nbsp;            //System.out.println(&quot;x = &quot; + x + &quot;, y = &quot; + y);
+<b class="pc">&nbsp;            for (int dd = 0; dd &lt; _size; dd++) {</b>
+<b class="fc">&nbsp;                x += DX[ii];</b>
+<b class="fc">&nbsp;                y += DY[ii];</b>
+&nbsp;                //System.out.println(&quot;x = &quot; + x + &quot;, y = &quot; + y);
+&nbsp;
+&nbsp;                // stop when we end up off the board
+<b class="fc">&nbsp;                if (!inBounds(x, y)) {</b>
+&nbsp;                    break;
+&nbsp;                }
+&nbsp;
+&nbsp;                
+<b class="fc">&nbsp;                int color = getColor(x, y);</b>
+&nbsp;                int playCol; //Will hold Player Color
+<b class="fc">&nbsp;                if (_next_to_play == Player.BLACK) {</b>
+<b class="fc">&nbsp;                	playCol = 0;</b>
+&nbsp;                } else {
+<b class="fc">&nbsp;                	playCol = 1;</b>
+&nbsp;                }
+&nbsp;                
+&nbsp;                //System.out.println(&quot;Color: &quot; + color);
+&nbsp;                //System.out.println(&quot;My Color: &quot; + playCol);
+<b class="fc">&nbsp;                if (color == -1) {</b>
+&nbsp;                    break;
+<b class="fc">&nbsp;                } else if (color == 1 - playCol) {</b>
+<b class="fc">&nbsp;                    sawOther = true;</b>
+<b class="pc">&nbsp;                } else if (color == playCol) {</b>
+<b class="fc">&nbsp;                    sawSelf = true;</b>
+&nbsp;                    break;
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+&nbsp;            // if we saw at least one other piece and one of our own, we have a
+&nbsp;            // legal move
+<b class="fc">&nbsp;            if (sawOther &amp;&amp; sawSelf) {</b>
+<b class="fc">&nbsp;                return true;</b>
+&nbsp;            }
+&nbsp;        }
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Returns true if the player with the specified color has legal moves.
+&nbsp;     */
+&nbsp;    public boolean hasLegalMoves (int color, Spot piece)
+&nbsp;    {
+&nbsp;        // search every board position for a legal move
+&nbsp;
+<b class="fc">&nbsp;        Color owner = piece.getSpotColor();</b>
+<b class="fc">&nbsp;        Point Piece = null;</b>
+<b class="pc">&nbsp;        for (int yy = 0; yy &lt; _size; yy++) {</b>
+<b class="pc">&nbsp;            for (int xx = 0; xx &lt; _size; xx++) {</b>
+<b class="pc">&nbsp;                if (getColor(xx, yy) != -1) {</b>
+&nbsp;                    continue;
+&nbsp;                }
+<b class="fc">&nbsp;                Piece.x = xx;</b>
+<b class="nc">&nbsp;                Piece.y = yy;</b>
+<b class="nc">&nbsp;                if (isLegalMove(_board.getSpotAt(Piece.x, Piece.y))) {</b>
+<b class="nc">&nbsp;                    return true;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    public boolean hasLegalMoves ()
+&nbsp;    {
+&nbsp;    	
+<b class="fc">&nbsp;    	for (Spot s: _board) {</b>
+&nbsp;   
+<b class="fc">&nbsp;                if (isLegalMove(s)) {</b>
+<b class="fc">&nbsp;                    return true;</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;    
+&nbsp;        
+&nbsp;    
+<b class="fc">&nbsp;        return false;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Determines which pieces should be flipped based on the placement of the
+&nbsp;     * specified piece onto the board. The pieces in question are changed to
+&nbsp;     * the appropriate color and updated in the game object.
+&nbsp;     */
+&nbsp;    public void flipPieces (Spot placed)
+&nbsp;    {
+<b class="fc">&nbsp;        ArrayList&lt;Spot&gt; toflip = new ArrayList&lt;Spot&gt;();</b>
+&nbsp;
+&nbsp;        // determine where this piece &quot;captures&quot; pieces of the opposite color
+<b class="fc">&nbsp;        for (int ii = 0; ii &lt; DX.length; ii++) {</b>
+&nbsp;            // look in this direction for captured pieces
+<b class="fc">&nbsp;            int x = placed.getSpotX(), y = placed.getSpotY();</b>
+&nbsp;            int next;
+&nbsp;			int playCol; // Will hold Player Color
+<b class="fc">&nbsp;			if (_next_to_play == Player.BLACK) {</b>
+<b class="fc">&nbsp;				playCol = 0;</b>
+<b class="fc">&nbsp;				next = 1;</b>
+&nbsp;			} else {
+<b class="fc">&nbsp;				playCol = 1;</b>
+<b class="fc">&nbsp;				next = 0; </b>
+&nbsp;			}
+&nbsp;
+&nbsp;			
+<b class="pc">&nbsp;            for (int dd = 0; dd &lt; _size; dd++) {</b>
+<b class="fc">&nbsp;                x += DX[ii];</b>
+<b class="fc">&nbsp;                y += DY[ii];</b>
+&nbsp;               
+&nbsp;
+&nbsp;                // stop when we end up off the board
+<b class="fc">&nbsp;                if (!inBounds(x, y)) {</b>
+&nbsp;                    break;
+&nbsp;                }
+&nbsp;
+<b class="fc">&nbsp;                int color = getColor(x, y);</b>
+<b class="fc">&nbsp;                if (color == -1) {</b>
+&nbsp;                    break;
+&nbsp;
+<b class="fc">&nbsp;                } else if (color == next) {</b>
+&nbsp;                    // add the piece at this coordinates to our to flip list
+<b class="pc">&nbsp;                    for (Spot piece : _board) {</b>
+<b class="fc">&nbsp;                        if (piece.getSpotX() == x &amp;&amp; piece.getSpotY() == y) {</b>
+<b class="fc">&nbsp;                            toflip.add(piece);</b>
+&nbsp;                            break;
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;
+<b class="pc">&nbsp;                } else if (color == playCol) {</b>
+&nbsp;                    // flip all the toflip pieces because we found our pair
+&nbsp;                	
+<b class="fc">&nbsp;                    for (Spot piece : toflip) {</b>
+&nbsp;                    	Color temp;
+<b class="pc">&nbsp;                        if (piece.getSpotColor() == Color.BLACK) {</b>
+<b class="nc">&nbsp;                        	temp = Color.WHITE;</b>
+&nbsp;                        } else {
+<b class="fc">&nbsp;                        	temp = Color.BLACK;</b>
+&nbsp;                        }
+&nbsp;                        
+<b class="fc">&nbsp;                        piece.setSpotColor(temp);</b>
+&nbsp;                    }
+&nbsp;                    break;
+&nbsp;                }
+&nbsp;            }
+<b class="fc">&nbsp;            toflip.clear();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;    
+&nbsp;    protected final Color getColorC (int x, int y)
+&nbsp;    {
+<b class="fc">&nbsp;        return _board.getSpotAt(x, y).getSpotColor();</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    protected final int getColor (int x, int y)
+&nbsp;    {
+<b class="fc">&nbsp;    	if (_board.getSpotAt(x, y).isEmpty() == true) {</b>
+<b class="fc">&nbsp;    		return -1;</b>
+<b class="fc">&nbsp;    	} else if (_board.getSpotAt(x, y).getSpotColor() == Color.BLACK) {</b>
+<b class="fc">&nbsp;    		return 0;</b>
+&nbsp;    	} else {
+<b class="fc">&nbsp;    		return 1;</b>
+&nbsp;    	}
+&nbsp;    	
+&nbsp;    }
+&nbsp;    
+&nbsp;    protected final int getColor (Spot spot)
+&nbsp;    {
+&nbsp;    	
+<b class="fc">&nbsp;    	int x = spot.getSpotX();</b>
+<b class="fc">&nbsp;    	int y = spot.getSpotY();</b>
+&nbsp;    			
+&nbsp;    	
+<b class="fc">&nbsp;    	if (_board.getSpotAt(x, y).getSpotColor() == Color.BLACK &amp;&amp; _board.getSpotAt(x, y).isEmpty() == true) {</b>
+<b class="fc">&nbsp;    		return -1;</b>
+&nbsp;    	}
+<b class="pc">&nbsp;    	if (_board.getSpotAt(x, y).getSpotColor() == Color.BLACK &amp;&amp; _board.getSpotAt(x, y).isEmpty() == false) {</b>
+<b class="fc">&nbsp;    		return 0;</b>
+&nbsp;    	}
+<b class="fc">&nbsp;    	if (_board.getSpotAt(x, y).getSpotColor() == Color.WHITE) {</b>
+<b class="fc">&nbsp;    		return 1;</b>
+&nbsp;    	}
+&nbsp;    	
+&nbsp;    	else {
+<b class="fc">&nbsp;    		return -2;</b>
+&nbsp;    	}
+&nbsp;    }
+&nbsp;    
+&nbsp;    
+&nbsp;    protected final boolean inBounds (Spot spot)
+&nbsp;    {
+&nbsp;    	
+<b class="fc">&nbsp;    	int x = spot.getSpotX();</b>
+<b class="fc">&nbsp;    	int y = spot.getSpotY();</b>
+&nbsp;    	
+<b class="fc">&nbsp;        return x &gt;= 0 &amp;&amp; y &gt;= 0 &amp;&amp; x &lt; this._size &amp;&amp; y &lt; this._size;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    
+&nbsp;    protected final boolean inBounds (int x, int y)
+&nbsp;    {
+&nbsp;    	
+<b class="fc">&nbsp;        return x &gt;= 0 &amp;&amp; y &gt;= 0 &amp;&amp; x &lt; this._size &amp;&amp; y &lt; this._size;</b>
+&nbsp;    }
+&nbsp;    
+&nbsp;    
+&nbsp;    protected int _size;
+&nbsp;    protected int[] _state;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-09-09 13:28</div>
+</div>
+</body>
+</html>
