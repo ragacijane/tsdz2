@@ -3,6 +3,8 @@ package othello;
 import org.junit.jupiter.api.*;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -154,5 +156,33 @@ public class JSpotTest {
     @Order(10)
     public void coordStringMatchesXAndY() {
         assertEquals("(2, 3)", spot.getCoordString());
+    }
+
+    // set highlight sa validnom bojom pokriva suprotnu granu od null provere
+    // pronasao claude - nedostajala grana u coverage izvestaju
+    @Test
+    @Order(11)
+    public void setHighlightWithValidColorUpdatesHighlight() {
+        spot.setHighlight(Color.RED);
+        assertEquals(Color.RED, spot.getHighlight());
+    }
+
+    // paintComponent pokriva obe grane - hajlajtovano+popunjeno polje i prazno+neobelezeno
+    // pronasao claude - paintComponent se nigde drugde ne poziva pa je ostajao nepokriven
+    @Test
+    @Order(12)
+    public void paintComponentCoversHighlightAndFillBranches() {
+        BufferedImage image = new BufferedImage(20, 20, BufferedImage.TYPE_INT_ARGB);
+        Graphics g = image.getGraphics();
+
+        spot.highlightSpot();
+        spot.setSpot();
+        assertDoesNotThrow(() -> spot.paintComponent(g));
+
+        spot.unhighlightSpot();
+        spot.clearSpot();
+        assertDoesNotThrow(() -> spot.paintComponent(g));
+
+        g.dispose();
     }
 }

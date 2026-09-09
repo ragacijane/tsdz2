@@ -3,7 +3,7 @@ Othello,othello,Spot,0,24,0,4,0,9,0,5,0,3
 Othello,othello,OthelloWidget.Player,0,15,0,0,0,2,0,1,0,1
 Othello,othello,OthelloWidget,107,907,28,132,30,216,23,76,0,19
 Othello,othello,SpotBoardIterator,0,63,0,6,0,14,0,6,0,3
-Othello,othello,JSpot,54,173,5,9,13,58,4,26,1,22
+Othello,othello,JSpot,0,227,0,14,0,71,0,30,0,23
 Othello,othello,JSpot.new Runnable() {...},1,13,0,0,1,5,0,2,0,2
 Othello,othello,OthelloGame,39,0,0,0,12,0,2,0,2,0
-Othello,othello,JSpotBoard,10,396,8,50,2,55,8,31,0,10
+Othello,othello,JSpotBoard,0,406,0,58,0,57,0,39,0,10

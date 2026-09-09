@@ -132,11 +132,11 @@ public class JSpot extends JPanel implements MouseListener, Spot {
 
 	@Override
 	public void setHighlight(Color c) {
-<span class="pc bpc" id="L135" title="1 of 2 branches missed.">		if (c == null) throw new IllegalArgumentException(&quot;null color&quot;);</span>
+<span class="fc bfc" id="L135" title="All 2 branches covered.">		if (c == null) throw new IllegalArgumentException(&quot;null color&quot;);</span>
 
-<span class="nc" id="L137">		_highlight_color = c;</span>
-<span class="nc" id="L138">		trigger_update();</span>
-<span class="nc" id="L139">	}</span>
+<span class="fc" id="L137">		_highlight_color = c;</span>
+<span class="fc" id="L138">		trigger_update();</span>
+<span class="fc" id="L139">	}</span>
 
 	@Override
 	public Color getHighlight() {
@@ -162,19 +162,19 @@ public class JSpot extends JPanel implements MouseListener, Spot {
 	public void paintComponent(Graphics g) {
 		// Super class paintComponent will take care of 
 		// painting the background.
-<span class="nc" id="L165">		super.paintComponent(g);</span>
+<span class="fc" id="L165">		super.paintComponent(g);</span>
 
-<span class="nc" id="L167">		Graphics2D g2d = (Graphics2D) g.create();</span>
-<span class="nc bnc" id="L168" title="All 2 branches missed.">		if (isHighlighted()) {</span>
-<span class="nc" id="L169">			g2d.setColor(getHighlight());</span>
-<span class="nc" id="L170">			g2d.setStroke(new BasicStroke(4));</span>
-<span class="nc" id="L171">			g2d.drawRect(0, 0, getWidth(), getHeight());</span>
+<span class="fc" id="L167">		Graphics2D g2d = (Graphics2D) g.create();</span>
+<span class="fc bfc" id="L168" title="All 2 branches covered.">		if (isHighlighted()) {</span>
+<span class="fc" id="L169">			g2d.setColor(getHighlight());</span>
+<span class="fc" id="L170">			g2d.setStroke(new BasicStroke(4));</span>
+<span class="fc" id="L171">			g2d.drawRect(0, 0, getWidth(), getHeight());</span>
 		}
-<span class="nc bnc" id="L173" title="All 2 branches missed.">		if (!isEmpty()) {</span>
-<span class="nc" id="L174">			g2d.setColor(getSpotColor());</span>
-<span class="nc" id="L175">			g2d.fillOval(0, 0, this.getWidth()-1, this.getHeight()-1);</span>
+<span class="fc bfc" id="L173" title="All 2 branches covered.">		if (!isEmpty()) {</span>
+<span class="fc" id="L174">			g2d.setColor(getSpotColor());</span>
+<span class="fc" id="L175">			g2d.fillOval(0, 0, this.getWidth()-1, this.getHeight()-1);</span>
 		}
-<span class="nc" id="L177">	}</span>
+<span class="fc" id="L177">	}</span>
 
 	// Mouse listener implementation below for translating
 	// mouse events into spot listener events.

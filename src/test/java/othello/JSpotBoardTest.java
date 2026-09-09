@@ -136,4 +136,26 @@ public class JSpotBoardTest {
         assertNotEquals(Color.PINK, singleColorBoard.getSpotAt(0, 0).getBackground());
         assertNotEquals(Color.PINK, singleColorBoard.getSpotAt(1, 1).getBackground());
     }
+
+    // nedozvoljena geometrija baca izuzetak i za konstruktor sa dve boje
+    // pronasao claude - ovaj konstruktor je imao istu proveru ali niko je nije testirao
+    @Test
+    @Order(10)
+    public void illegalGeometryThrowsForTwoColorConstructor() {
+        assertThrows(IllegalArgumentException.class, () -> new JSpotBoard(0, 5, Color.RED, Color.BLUE));
+        assertThrows(IllegalArgumentException.class, () -> new JSpotBoard(5, 0, Color.RED, Color.BLUE));
+        assertThrows(IllegalArgumentException.class, () -> new JSpotBoard(51, 5, Color.RED, Color.BLUE));
+        assertThrows(IllegalArgumentException.class, () -> new JSpotBoard(5, 51, Color.RED, Color.BLUE));
+    }
+
+    // nedozvoljena geometrija baca izuzetak i za konstruktor sa jednom dodatnom bojom
+    // pronasao claude - isti slucaj, treci konstruktor bez testa za nevalidnu geometriju
+    @Test
+    @Order(11)
+    public void illegalGeometryThrowsForSingleColorConstructor() {
+        assertThrows(IllegalArgumentException.class, () -> new JSpotBoard(0, 5, Color.PINK));
+        assertThrows(IllegalArgumentException.class, () -> new JSpotBoard(5, 0, Color.PINK));
+        assertThrows(IllegalArgumentException.class, () -> new JSpotBoard(51, 5, Color.PINK));
+        assertThrows(IllegalArgumentException.class, () -> new JSpotBoard(5, 51, Color.PINK));
+    }
 }

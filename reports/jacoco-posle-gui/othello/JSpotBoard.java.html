@@ -55,8 +55,8 @@ public class JSpotBoard extends JPanel implements SpotBoard {
 	
 	//ConnectFour Constructor
 <span class="fc" id="L57">	public JSpotBoard(int width, int height, Color C1, Color C2) {</span>
-<span class="pc bpc" id="L58" title="4 of 8 branches missed.">		if (width &lt; 1 || height &lt; 1 || width &gt; 50 || height &gt; 50) {</span>
-<span class="nc" id="L59">			throw new IllegalArgumentException(&quot;Illegal spot board geometry&quot;);</span>
+<span class="fc bfc" id="L58" title="All 8 branches covered.">		if (width &lt; 1 || height &lt; 1 || width &gt; 50 || height &gt; 50) {</span>
+<span class="fc" id="L59">			throw new IllegalArgumentException(&quot;Illegal spot board geometry&quot;);</span>
 		}
 <span class="fc" id="L61">		setLayout(new GridLayout(height, width));</span>
 <span class="fc" id="L62">		_spots = new Spot[width][height];</span>
@@ -74,8 +74,8 @@ public class JSpotBoard extends JPanel implements SpotBoard {
 <span class="fc" id="L74">	}</span>
 	
 <span class="fc" id="L76">	public JSpotBoard(int width, int height, Color defaultCol2) {</span>
-<span class="pc bpc" id="L77" title="4 of 8 branches missed.">		if (width &lt; 1 || height &lt; 1 || width &gt; 50 || height &gt; 50) {</span>
-<span class="nc" id="L78">			throw new IllegalArgumentException(&quot;Illegal spot board geometry&quot;);</span>
+<span class="fc bfc" id="L77" title="All 8 branches covered.">		if (width &lt; 1 || height &lt; 1 || width &gt; 50 || height &gt; 50) {</span>
+<span class="fc" id="L78">			throw new IllegalArgumentException(&quot;Illegal spot board geometry&quot;);</span>
 		}
 <span class="fc" id="L80">		setLayout(new GridLayout(height, width));</span>
 <span class="fc" id="L81">		_spots = new Spot[width][height];</span>
