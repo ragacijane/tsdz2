@@ -301,11 +301,6 @@ public class OthelloWidget extends JPanel implements ActionListener, SpotListene
 		
 	}
 
-	/*
-	 * Package-private accessor added for unit testing purposes only.
-	 * Exposes read access to the internal board without changing any
-	 * existing behavior of the class.
-	 */
 	Spot getSpotAt(int x, int y) {
 		return _board.getSpotAt(x, y);
 	}
@@ -401,7 +396,7 @@ public class OthelloWidget extends JPanel implements ActionListener, SpotListene
 		return false;
 
 	}
-	
+
 	
 
     /**

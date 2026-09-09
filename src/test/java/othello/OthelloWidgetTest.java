@@ -8,12 +8,6 @@ import java.awt.Color;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/*
- * Unit tests for the game logic implemented inside OthelloWidget
- * (isLegalMove, flipPieces, checkWin, checkDraw, hasLegalMoves,
- * getColor, inBounds). GUI behaviour (painting, mouse events) is not
- * covered here, only the game-rule logic embedded in the class.
- */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class OthelloWidgetTest {
 
@@ -24,8 +18,6 @@ public class OthelloWidgetTest {
         widget = new OthelloWidget();
     }
 
-    // Fills the whole 8x8 board with a single color so that no empty
-    // spot remains, guaranteeing hasLegalMoves() becomes false.
     private void fillBoard(Color color) {
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
@@ -36,9 +28,6 @@ public class OthelloWidgetTest {
         }
     }
 
-    // Fills the whole board with a split of black/white pieces
-    // (no empty spots) using the first `blackCount` cells (row-major)
-    // as black and the rest as white.
     private void fillBoardSplit(int blackCount) {
         int placed = 0;
         for (int y = 0; y < 8; y++) {
@@ -144,11 +133,8 @@ public class OthelloWidgetTest {
 
     @Test
     @Order(12)
-    public void hasLegalMovesWithArgsThrowsDueToKnownBug() {
-        // hasLegalMoves(int, Spot) dereferences an uninitialized Point
-        // and always throws NullPointerException - documents the bug.
-        assertThrows(NullPointerException.class,
-                () -> widget.hasLegalMoves(0, widget.getSpotAt(0, 0)));
+    public void hasLegalMovesWithArgsShouldFindLegalMoveForBlackAtStart() {
+        assertTrue(widget.hasLegalMoves(0, widget.getSpotAt(3, 4)));
     }
 
     @Test
@@ -163,7 +149,6 @@ public class OthelloWidgetTest {
         fillBoard(Color.BLACK);
         assertTrue(widget.checkWin());
         assertTrue(widget._noBlack > widget._noWhite);
-        // second call must short-circuit through the already-won branch
         assertTrue(widget.checkWin());
     }
 
@@ -185,15 +170,19 @@ public class OthelloWidgetTest {
 
     @Test
     @Order(17)
-    public void checkDrawAlwaysReturnsFalseDueToKnownBug() {
-        // checkDraw() computes counts but never uses them - documents the bug.
-        assertFalse(widget.checkDraw());
-        fillBoard(Color.WHITE);
+    public void checkDrawFalseWhenCountsAreUnequal() {
         assertFalse(widget.checkDraw());
     }
 
     @Test
     @Order(18)
+    public void checkDrawShouldBeTrueWhenCountsAreEqual() {
+        fillBoardSplit(32);
+        assertTrue(widget.checkDraw());
+    }
+
+    @Test
+    @Order(19)
     public void getColorReturnsEmptyBlackAndWhite() {
         assertEquals(-1, widget.getColor(0, 0));
         assertEquals(0, widget.getColor(3, 4));
@@ -201,7 +190,7 @@ public class OthelloWidgetTest {
     }
 
     @Test
-    @Order(19)
+    @Order(20)
     public void getColorSpotOverloadCoversAllBranches() {
         assertEquals(-1, widget.getColor(widget.getSpotAt(0, 0)));
         assertEquals(0, widget.getColor(widget.getSpotAt(3, 4)));
@@ -210,5 +199,40 @@ public class OthelloWidgetTest {
         Spot weird = widget.getSpotAt(1, 1);
         weird.setSpotColor(Color.RED);
         assertEquals(-2, widget.getColor(weird));
+    }
+
+    @Test
+    @Order(21)
+    public void getColorCReturnsRawSpotColor() {
+        assertEquals(Color.WHITE, widget.getColorC(3, 3));
+        assertEquals(Color.BLACK, widget.getColorC(3, 4));
+    }
+
+    @Test
+    @Order(22)
+    public void inBoundsSpotOverloadCoversAllFourConditions() {
+        assertTrue(widget.inBounds(new JSpot(Color.GRAY, Color.BLACK, Color.YELLOW, null, 0, 0)));
+        assertFalse(widget.inBounds(new JSpot(Color.GRAY, Color.BLACK, Color.YELLOW, null, -1, 0)));
+        assertFalse(widget.inBounds(new JSpot(Color.GRAY, Color.BLACK, Color.YELLOW, null, 0, -1)));
+        assertFalse(widget.inBounds(new JSpot(Color.GRAY, Color.BLACK, Color.YELLOW, null, 3, 8)));
+    }
+
+    @Test
+    @Order(23)
+    public void spotClickedOnEmptyLegalSpotPlacesPieceAndFlipsCapture() {
+        widget.spotClicked(widget.getSpotAt(2, 3));
+
+        assertFalse(widget.getSpotAt(2, 3).isEmpty());
+        assertEquals(Color.BLACK, widget.getSpotAt(2, 3).getSpotColor());
+        assertEquals(Color.BLACK, widget.getSpotAt(3, 3).getSpotColor());
+    }
+
+    @Test
+    @Order(24)
+    public void spotClickedOnOccupiedSpotAfterSetupIsIgnored() {
+        widget.spotClicked(widget.getSpotAt(3, 3));
+
+        assertEquals(Color.WHITE, widget.getSpotAt(3, 3).getSpotColor());
+        assertFalse(widget.getSpotAt(3, 3).isEmpty());
     }
 }
