@@ -1,5 +1,6 @@
-mvn "-Dmaven.test.failure.ignore=true" "-Dtest=SpotBoardIteratorTest,OthelloWidgetTest" test
-mvn "-Dmaven.test.failure.ignore=true" test
+mvn clean
+mvn clean "-Dmaven.test.failure.ignore=true" "-Dtest=SpotBoardIteratorTest,OthelloWidgetTest" test
+mvn clean "-Dmaven.test.failure.ignore=true" test
 
 Spot getSpotAt(int x, int y) {
     return _board.getSpotAt(x, y);
