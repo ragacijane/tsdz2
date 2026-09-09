@@ -1,0 +1,44 @@
+PROMPT 1 (kod + trenutni testovi):
+
+Evo ti ceo kod moje java aplikacije (Othello/Reversi igra u Swingu) i testovi
+koje sam do sad napisao. Pogledaj pa mi za sada samo potvrdi da si sve
+ucitao, ne radi nista jos.
+
+//JSpot.java
+(ovde ide kompletan kod JSpot.java)
+
+//JSpotBoard.java
+(ovde ide kompletan kod JSpotBoard.java)
+
+//OthelloWidget.java
+(ovde ide kompletan kod OthelloWidget.java)
+
+//OthelloGame.java
+(ovde ide kompletan kod OthelloGame.java)
+
+//SpotBoardIteratorTest.java
+(ovde ide kompletan kod tog test fajla)
+
+//OthelloWidgetTest.java
+(ovde ide kompletan kod tog test fajla)
+
+
+PROMPT 2 (objasnjenje sta je GUI i sta treba da se uradi):
+
+Ovo je desktop igra Otelo napravljena u Swingu. GUI deo cine tri klase:
+
+- JSpot je jedno polje na tabli, ono se samo iscrtava (paintComponent) i
+  reaguje na klik i prelazak misa preko sebe
+- JSpotBoard slaze 64 takva polja u mrezu 8x8
+- OthelloWidget ih povezuje sa dugmetom za restart igre i porukom na dnu
+  ekrana koja pise ko je na potezu
+
+Testovi koje imam do sad (SpotBoardIteratorTest i OthelloWidgetTest)
+testiraju samo logiku igre - legalni potezi, okretanje figura, ko je
+pobedio. Ne testiraju sam GUI - klik misem, hover efekat kad predjes
+preko polja, iscrtavanje, dugme restart.
+
+Napravi mi dodatne JUnit teste koji pokrivaju bas te GUI stvari. Testovi
+moraju da rade automatski, bez otvaranja pravog prozora na ekranu, jer
+se pokrecu iz Maven-a. Drzi se istog stila kao u postojecim testovima
+(JUnit 5, @Test, @Order).
