@@ -37,7 +37,7 @@ public class JSpotTest {
         spot = new JSpot(Color.GRAY, Color.BLACK, Color.YELLOW, null, 2, 3);
     }
 
-    // почетно стање, боје и координате постављене преко конструктора
+    // pocetno stanje, boje i koordinate postavljene preko konstruktora
     @Test
     @Order(1)
     public void constructorSetsColorsAndCoordinates() {
@@ -51,7 +51,7 @@ public class JSpotTest {
         assertFalse(spot.isHighlighted());
     }
 
-    // сет/клир/тогл мењају празно стање поља, то се касније и црта
+    // set/clear/toggle menjaju prazno stanje polja, to se kasnije i crta
     @Test
     @Order(2)
     public void setClearAndToggleSpotChangeEmptyState() {
@@ -65,7 +65,7 @@ public class JSpotTest {
         assertTrue(spot.isEmpty());
     }
 
-    // хајлајт/анхајлајт и тогл хајлајта, за жути оквир око поља
+    // highlight/unhighlight i toggle highlighta, za zuti okvir oko polja
     @Test
     @Order(3)
     public void highlightUnhighlightAndToggleChangeHighlightState() {
@@ -79,21 +79,21 @@ public class JSpotTest {
         assertFalse(spot.isHighlighted());
     }
 
-    // null боја фигуре није дозвољена
+    // null boja figure nije dozvoljena
     @Test
     @Order(4)
     public void setSpotColorNullThrows() {
         assertThrows(IllegalArgumentException.class, () -> spot.setSpotColor(null));
     }
 
-    // null боја хајлајта није дозвољена
+    // null boja highlighta nije dozvoljena
     @Test
     @Order(5)
     public void setHighlightNullThrows() {
         assertThrows(IllegalArgumentException.class, () -> spot.setHighlight(null));
     }
 
-    // клик мишем се преводи у spotClicked позив свим регистрованим слушаоцима
+    // klik misem se prevodi u spotClicked poziv svim registrovanim slusaocima
     @Test
     @Order(6)
     public void mouseClickedNotifiesAllListeners() {
@@ -108,7 +108,7 @@ public class JSpotTest {
         assertEquals(List.of("clicked"), l2.events);
     }
 
-    // улазак и излазак миша се преводе у entered/exited позиве
+    // ulazak i izlazak misa se prevode u entered/exited pozive
     @Test
     @Order(7)
     public void mouseEnteredAndExitedNotifyListener() {
@@ -121,7 +121,7 @@ public class JSpotTest {
         assertEquals(List.of("entered", "exited"), l.events);
     }
 
-    // уклоњени слушалац више не добија обавештења
+    // uklonjeni slusalac vise ne dobija obavestenja
     @Test
     @Order(8)
     public void removedListenerReceivesNoMoreEvents() {
@@ -136,7 +136,7 @@ public class JSpotTest {
         assertTrue(l.events.isEmpty());
     }
 
-    // притисак и отпуштање дугмета миша намерно ништа не раде
+    // pritisak i otpustanje dugmeta misa namerno nista ne rade
     @Test
     @Order(9)
     public void mousePressedAndReleasedAreNoOps() {
@@ -149,7 +149,7 @@ public class JSpotTest {
         assertTrue(l.events.isEmpty());
     }
 
-    // координатни стринг из подразумеване методе интерфејса
+    // koordinatni string iz podrazumevane metode interfejsa
     @Test
     @Order(10)
     public void coordStringMatchesXAndY() {

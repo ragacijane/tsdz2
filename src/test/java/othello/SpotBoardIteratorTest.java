@@ -16,7 +16,7 @@ public class SpotBoardIteratorTest {
         board = new JSpotBoard(2, 2);
     }
 
-    // хеснект тачно на почетку, пре иједног некста
+    // hasnext tacno na pocetku, pre ijednog nexta
     @Test
     @Order(1)
     public void hasNextIsTrueWhenIterationNotStarted() {
@@ -24,7 +24,7 @@ public class SpotBoardIteratorTest {
         assertTrue(it.hasNext());
     }
 
-    // редослед обиласка поља, ред по ред од горе ка доле
+    // redosled obilaska polja, red po red od gore ka dole
     @Test
     @Order(2)
     public void nextVisitsEverySpotInRowMajorOrder() {
@@ -47,7 +47,7 @@ public class SpotBoardIteratorTest {
         assertEquals(1, s4.getSpotY());
     }
 
-    // кад се обиђу сва поља хеснект пада на фалс
+    // kad se obidju sva polja hasnext pada na false
     @Test
     @Order(3)
     public void hasNextIsFalseAfterLastSpotVisited() {
@@ -58,7 +58,7 @@ public class SpotBoardIteratorTest {
         assertFalse(it.hasNext());
     }
 
-    // позив некста после краја баца изузетак
+    // poziv nexta posle kraja baca izuzetak
     @Test
     @Order(4)
     public void nextThrowsWhenExhausted() {
@@ -69,7 +69,7 @@ public class SpotBoardIteratorTest {
         assertThrows(NoSuchElementException.class, it::next);
     }
 
-    // фор-ич петља прође свако поље тачно једном
+    // for-each petlja prodje svako polje tacno jednom
     @Test
     @Order(5)
     public void boardForEachLoopVisitsAllSpotsExactlyOnce() {

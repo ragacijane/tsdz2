@@ -40,7 +40,7 @@ public class OthelloWidgetTest {
         }
     }
 
-    // почетни распоред 4 фигуре у центру табле
+    // pocetni raspored 4 figure u centru table
     @Test
     @Order(1)
     public void constructorSetsUpStandardStartingPosition() {
@@ -52,21 +52,21 @@ public class OthelloWidgetTest {
         assertTrue(widget.getSpotAt(0, 0).isEmpty());
     }
 
-    // не може да се игра на већ заузето поље
+    // ne moze da se igra na vec zauzeto polje
     @Test
     @Order(2)
     public void isLegalMoveReturnsFalseForOccupiedSpot() {
         assertFalse(widget.isLegalMove(widget.getSpotAt(3, 3)));
     }
 
-    // потез који хвата противника мора да буде дозвољен
+    // potez koji hvata protivnika mora da bude dozvoljen
     @Test
     @Order(3)
     public void isLegalMoveReturnsTrueForCapturingMove() {
         assertTrue(widget.isLegalMove(widget.getSpotAt(2, 3)));
     }
 
-    // гомила случајева легалних и нелегалних потеза из csv фајла
+    // gomila slucajeva legalnih i nelegalnih poteza iz csv fajla
     @ParameterizedTest
     @Order(4)
     @CsvFileSource(resources = "/legalmoves.csv", numLinesToSkip = 1)
@@ -74,7 +74,7 @@ public class OthelloWidgetTest {
         assertEquals(expected, widget.isLegalMove(widget.getSpotAt(x, y)));
     }
 
-    // провера граница табле за гомилу координата из csv фајла
+    // provera granica table za gomilu koordinata iz csv fajla
     @ParameterizedTest
     @Order(5)
     @CsvFileSource(resources = "/inbounds.csv", numLinesToSkip = 1)
@@ -82,7 +82,7 @@ public class OthelloWidgetTest {
         assertEquals(expected, widget.inBounds(x, y));
     }
 
-    // да ли се верзија са спотом и верзија са координатама слажу
+    // da li se verzija sa spotom i verzija sa koordinatama slazu
     @Test
     @Order(6)
     public void inBoundsSpotOverloadMatchesCoordinateOverload() {
@@ -90,7 +90,7 @@ public class OthelloWidgetTest {
         assertFalse(widget.inBounds(new JSpot(Color.GRAY, Color.BLACK, Color.YELLOW, null, 8, 8)));
     }
 
-    // окретање фигуре кад је ухваћена у једном правцу
+    // okretanje figure kad je uhvacena u jednom pravcu
     @Test
     @Order(7)
     public void flipPiecesFlipsCapturedPieceInOneDirection() {
@@ -99,7 +99,7 @@ public class OthelloWidgetTest {
         assertTrue(widget.getSpotAt(2, 3).isEmpty());
     }
 
-    // ништа се не окреће ако низ хватања није завршен до краја
+    // nista se ne okrece ako niz hvatanja nije zavrsen do kraja
     @Test
     @Order(8)
     public void flipPiecesDoesNothingWhenNoCaptureChainCompletes() {
@@ -110,7 +110,7 @@ public class OthelloWidgetTest {
         assertEquals(Color.WHITE, widget.getSpotAt(4, 4).getSpotColor());
     }
 
-    // окретање више фигура заредом у истом низу
+    // okretanje vise figura zaredom u istom nizu
     @Test
     @Order(9)
     public void flipPiecesFlipsMultiplePiecesInChain() {
@@ -127,14 +127,14 @@ public class OthelloWidgetTest {
         assertEquals(Color.BLACK, mid2.getSpotColor());
     }
 
-    // на почетку игре мора да постоји бар један потез
+    // na pocetku igre mora da postoji bar jedan potez
     @Test
     @Order(10)
     public void hasLegalMovesTrueAtGameStart() {
         assertTrue(widget.hasLegalMoves());
     }
 
-    // пуна табла значи да више нема потеза
+    // puna tabla znaci da vise nema poteza
     @Test
     @Order(11)
     public void hasLegalMovesFalseWhenBoardFull() {
@@ -142,21 +142,21 @@ public class OthelloWidgetTest {
         assertFalse(widget.hasLegalMoves());
     }
 
-    // иста провера потеза само преко преоптерећене верзије са аргументима
+    // ista provera poteza samo preko preopterecene verzije sa argumentima
     @Test
     @Order(12)
     public void hasLegalMovesWithArgsShouldFindLegalMoveForBlackAtStart() {
         assertTrue(widget.hasLegalMoves(0, widget.getSpotAt(3, 4)));
     }
 
-    // игра није готова док год постоје потези
+    // igra nije gotova dok god postoje potezi
     @Test
     @Order(13)
     public void checkWinFalseWhileLegalMovesRemain() {
         assertFalse(widget.checkWin());
     }
 
-    // победа црног кад је цела табла црна
+    // pobeda crnog kad je cela tabla crna
     @Test
     @Order(14)
     public void checkWinTrueAndBlackWinsWhenBoardFullOfBlack() {
@@ -166,7 +166,7 @@ public class OthelloWidgetTest {
         assertTrue(widget.checkWin());
     }
 
-    // победа белог кад је цела табла бела
+    // pobeda belog kad je cela tabla bela
     @Test
     @Order(15)
     public void checkWinTrueAndWhiteWinsWhenBoardFullOfWhite() {
@@ -175,7 +175,7 @@ public class OthelloWidgetTest {
         assertTrue(widget._noWhite > widget._noBlack);
     }
 
-    // нерешено кад је број фигура изједначен на попуњеној табли
+    // nereseno kad je broj figura izjednacen na popunjenoj tabli
     @Test
     @Order(16)
     public void checkWinTrueAndDrawWhenCountsAreEqual() {
@@ -184,14 +184,14 @@ public class OthelloWidgetTest {
         assertEquals(widget._noBlack, widget._noWhite);
     }
 
-    // на почетку игре бројеви фигура нису исти, нема нерешеног
+    // na pocetku igre brojevi figura nisu isti, nema neresenog
     @Test
     @Order(17)
     public void checkDrawFalseWhenCountsAreUnequal() {
         assertFalse(widget.checkDraw());
     }
 
-    // нерешено кад су бројеви фигура изједначени
+    // nereseno kad su brojevi figura izjednaceni
     @Test
     @Order(18)
     public void checkDrawShouldBeTrueWhenCountsAreEqual() {
@@ -199,7 +199,7 @@ public class OthelloWidgetTest {
         assertTrue(widget.checkDraw());
     }
 
-    // враћа боју поља, празно/црно/бело, по координатама
+    // vraca boju polja, prazno/crno/belo, po koordinatama
     @Test
     @Order(19)
     public void getColorReturnsEmptyBlackAndWhite() {
@@ -208,7 +208,7 @@ public class OthelloWidgetTest {
         assertEquals(1, widget.getColor(3, 3));
     }
 
-    // иста провера боје преко спота, укључујући и чудну боју ван скупа
+    // ista provera boje preko spota, ukljucujuci i cudnu boju van skupa
     @Test
     @Order(20)
     public void getColorSpotOverloadCoversAllBranches() {
@@ -221,7 +221,7 @@ public class OthelloWidgetTest {
         assertEquals(-2, widget.getColor(weird));
     }
 
-    // враћа сирову боју поља без превода у бројеве
+    // vraca sirovu boju polja bez prevoda u brojeve
     @Test
     @Order(21)
     public void getColorCReturnsRawSpotColor() {
@@ -229,7 +229,7 @@ public class OthelloWidgetTest {
         assertEquals(Color.BLACK, widget.getColorC(3, 4));
     }
 
-    // границе табле проверене за сва четири руба посебно
+    // granice table proverene za sva cetiri ruba posebno
     @Test
     @Order(22)
     public void inBoundsSpotOverloadCoversAllFourConditions() {
@@ -239,7 +239,7 @@ public class OthelloWidgetTest {
         assertFalse(widget.inBounds(new JSpot(Color.GRAY, Color.BLACK, Color.YELLOW, null, 3, 8)));
     }
 
-    // клик на празно легално поље поставља фигуру и хвата противника
+    // klik na prazno legalno polje postavlja figuru i hvata protivnika
     @Test
     @Order(23)
     public void spotClickedOnEmptyLegalSpotPlacesPieceAndFlipsCapture() {
@@ -250,7 +250,7 @@ public class OthelloWidgetTest {
         assertEquals(Color.BLACK, widget.getSpotAt(3, 3).getSpotColor());
     }
 
-    // клик на већ заузето поље се игнорише, ништа се не мења
+    // klik na vec zauzeto polje se ignorise, nista se ne menja
     @Test
     @Order(24)
     public void spotClickedOnOccupiedSpotAfterSetupIsIgnored() {

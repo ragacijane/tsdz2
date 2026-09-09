@@ -26,7 +26,7 @@ public class OthelloWidgetGuiTest {
         }
     }
 
-    // дугме restart враћа таблу на почетну позицију после промена
+    // dugme restart vraca tablu na pocetnu poziciju posle promena
     @Test
     @Order(1)
     public void actionPerformedResetsBoardToStartingPosition() {
@@ -42,7 +42,7 @@ public class OthelloWidgetGuiTest {
         assertEquals(Color.WHITE, widget.getSpotAt(4, 4).getSpotColor());
     }
 
-    // мишем се прелази преко дозвољеног поља, оно се хајлајтује
+    // misem se prelazi preko dozvoljenog polja, ono se highlightuje
     @Test
     @Order(2)
     public void spotEnteredHighlightsLegalMoveSpot() {
@@ -51,7 +51,7 @@ public class OthelloWidgetGuiTest {
         assertTrue(legal.isHighlighted());
     }
 
-    // мишем се прелази преко заузетог поља, оно се не хајлајтује
+    // misem se prelazi preko zauzetog polja, ono se ne highlightuje
     @Test
     @Order(3)
     public void spotEnteredDoesNotHighlightIllegalMoveSpot() {
@@ -60,7 +60,7 @@ public class OthelloWidgetGuiTest {
         assertFalse(occupied.isHighlighted());
     }
 
-    // напуштање поља мишем скида хајлајт без обзира да ли је потез легалан
+    // napustanje polja misem skida highlight bez obzira da li je potez legalan
     @Test
     @Order(4)
     public void spotExitedUnhighlightsSpot() {
@@ -72,7 +72,7 @@ public class OthelloWidgetGuiTest {
         assertFalse(legal.isHighlighted());
     }
 
-    // кад је игра већ добијена, прелазак мишем преко поља више не хајлајтује
+    // kad je igra vec dobijena, prelazak misem preko polja vise ne highlightuje
     @Test
     @Order(5)
     public void spotEnteredDoesNothingAfterGameIsWon() {
@@ -85,7 +85,7 @@ public class OthelloWidgetGuiTest {
         assertFalse(s.isHighlighted());
     }
 
-    // кад је игра већ добијена, напуштање поља мишем не скида постојећи хајлајт
+    // kad je igra vec dobijena, napustanje polja misem ne skida postojeci highlight
     @Test
     @Order(6)
     public void spotExitedDoesNothingAfterGameIsWon() {

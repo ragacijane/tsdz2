@@ -35,7 +35,7 @@ public class JSpotBoardTest {
         board = new JSpotBoard(3, 2);
     }
 
-    // димензије табле одговарају прослеђеним width/height
+    // dimenzije table odgovaraju prosledjenim width/height
     @Test
     @Order(1)
     public void constructorSetsUpCorrectDimensions() {
@@ -43,7 +43,7 @@ public class JSpotBoardTest {
         assertEquals(2, board.getSpotHeight());
     }
 
-    // недозвољена геометрија табле баца изузетак
+    // nedozvoljena geometrija table baca izuzetak
     @Test
     @Order(2)
     public void illegalGeometryThrows() {
@@ -53,7 +53,7 @@ public class JSpotBoardTest {
         assertThrows(IllegalArgumentException.class, () -> new JSpotBoard(5, 51));
     }
 
-    // свако поље на табли постоји и зна своје координате
+    // svako polje na tabli postoji i zna svoje koordinate
     @Test
     @Order(3)
     public void getSpotAtReturnsSpotWithMatchingCoordinates() {
@@ -67,7 +67,7 @@ public class JSpotBoardTest {
         }
     }
 
-    // ван граница табле баца изузетак
+    // van granica table baca izuzetak
     @Test
     @Order(4)
     public void getSpotAtOutOfBoundsThrows() {
@@ -77,7 +77,7 @@ public class JSpotBoardTest {
         assertThrows(IllegalArgumentException.class, () -> board.getSpotAt(0, 2));
     }
 
-    // addSpotListener региструје слушаоца на свако поље табле
+    // addSpotListener registruje slusaoca na svako polje table
     @Test
     @Order(5)
     public void addSpotListenerRegistersOnEverySpot() {
@@ -91,7 +91,7 @@ public class JSpotBoardTest {
         assertEquals(6, l.clicked.size());
     }
 
-    // removeSpotListener скида слушаоца са свих поља
+    // removeSpotListener skida slusaoca sa svih polja
     @Test
     @Order(6)
     public void removeSpotListenerUnregistersFromEverySpot() {
@@ -106,14 +106,14 @@ public class JSpotBoardTest {
         assertTrue(l.clicked.isEmpty());
     }
 
-    // итератор() враћа праву spotboarditerator инстанцу
+    // iterator() vraca pravu spotboarditerator instancu
     @Test
     @Order(7)
     public void iteratorReturnsSpotBoardIterator() {
         assertInstanceOf(SpotBoardIterator.class, board.iterator());
     }
 
-    // конструктор са две боје шаховски распоређује позадине по колонама
+    // konstruktor sa dve boje sahovski rasporedjuje pozadine po kolonama
     @Test
     @Order(8)
     public void twoColorConstructorAlternatesBackgroundsByColumn() {
@@ -125,7 +125,7 @@ public class JSpotBoardTest {
         assertEquals(Color.BLUE, twoColorBoard.getSpotAt(1, 1).getBackground());
     }
 
-    // конструктор са једном додатном бојом прави шаховски распоред по (x+y)
+    // konstruktor sa jednom dodatnom bojom pravi sahovski raspored po (x+y)
     @Test
     @Order(9)
     public void singleColorConstructorAlternatesBackgroundsCheckerboard() {
