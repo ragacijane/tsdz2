@@ -1,0 +1,195 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Spot</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">othello</a>
+</div>
+
+<h1>Coverage Summary for Class: Spot (othello)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Spot</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/7)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package othello;
+&nbsp;
+&nbsp;
+&nbsp;import java.awt.Color;
+&nbsp;
+&nbsp;/*
+&nbsp; * Spot
+&nbsp; * 
+&nbsp; * A Spot knows about which SpotBoard it is associated with as well as its
+&nbsp; * x and y position on the board. These can be accessed as getters for
+&nbsp; * properties X, Y, and Board.
+&nbsp; * 
+&nbsp; * A Spot is either empty or not empty. A Spot is constructed as empty.
+&nbsp; * The empty status can be checked with isEmpty(), set as not empty with setSpot(),
+&nbsp; * cleared to empty with clearSpot(), and toggled with toggleSpot().
+&nbsp; * 
+&nbsp; * Similarly, a spot is either highlighted or not. Highlight methods are:
+&nbsp; * isHighlighted(), highlightSpot(), unhighlightSpot(), toggleHighlight().
+&nbsp; * 
+&nbsp; * A Spot has three mutable color properties that can be configured:
+&nbsp; * 		SpotColor - The color used to draw the spot if the spot has been set.
+&nbsp; * 		Background - Background color of the spot.
+&nbsp; *      Highlight - Highlight color of the spot. 
+&nbsp; *      
+&nbsp; * Spot will paint itself with the current background, an oval filled spot if 
+&nbsp; * not empty and framed by a 4 pixel wide stroke in the highlight color if highlighted.
+&nbsp; * 
+&nbsp; * A Spot is observable to objects that implement SpotListener.
+&nbsp; * Spot listeners are informed about &quot;enter&quot;, &quot;exit&quot;, and &quot;click&quot; events.
+&nbsp; * It is up to an implementation to determine how / when those are events occur.
+&nbsp; * 
+&nbsp; * Register and deregister methods are addSpotListener() and removeSpotListener()
+&nbsp; * 
+&nbsp; * getCoordString() constructs coordinate string as &quot;(x,y)&quot;
+&nbsp; * 
+&nbsp; */
+&nbsp;
+&nbsp;public interface Spot {
+&nbsp;
+&nbsp;	int getSpotX();
+&nbsp;	int getSpotY();
+&nbsp;	SpotBoard getBoard();
+&nbsp;
+&nbsp;	boolean isEmpty();
+&nbsp;	void setSpot();
+&nbsp;	void clearSpot();
+&nbsp;	default void toggleSpot() {
+<b class="fc">&nbsp;		if (isEmpty()) {</b>
+<b class="fc">&nbsp;			setSpot();</b>
+&nbsp;		} else {
+<b class="fc">&nbsp;			clearSpot();</b>
+&nbsp;		}
+&nbsp;	}
+&nbsp;
+&nbsp;	boolean isHighlighted();
+&nbsp;	void highlightSpot();
+&nbsp;	void unhighlightSpot();
+&nbsp;	default void toggleHighlight() {
+<b class="fc">&nbsp;		if (isHighlighted()) {</b>
+<b class="fc">&nbsp;			unhighlightSpot();</b>
+&nbsp;		} else {
+<b class="fc">&nbsp;			highlightSpot();</b>
+&nbsp;		}
+&nbsp;	}
+&nbsp;
+&nbsp;	void setBackground(Color c);
+&nbsp;	Color getBackground();
+&nbsp;	void setSpotColor(Color c);
+&nbsp;	Color getSpotColor();
+&nbsp;	void setHighlight(Color c);
+&nbsp;	Color getHighlight();
+&nbsp;
+&nbsp;	void addSpotListener(SpotListener l);
+&nbsp;	void removeSpotListener(SpotListener l);
+&nbsp;
+&nbsp;	default String getCoordString() {
+<b class="fc">&nbsp;		return &quot;(&quot; + getSpotX() + &quot;, &quot; + getSpotY() + &quot;)&quot;;</b>
+&nbsp;	}
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-09-09 13:28</div>
+</div>
+</body>
+</html>
